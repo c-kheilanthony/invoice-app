@@ -2,7 +2,41 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function InvoiceList() {
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [invoices, setInvoices] = useState([]);
+
+  const sortedInvoices = [...invoices].sort((a, b) => {
+    if (!sortConfig.key) return 0;
+
+    let aValue = a[sortConfig.key];
+    let bValue = b[sortConfig.key];
+
+    if (sortConfig.key === "invoiceNumber") {
+      aValue = a.invoiceNumber || "";
+      bValue = b.invoiceNumber || "";
+    }
+
+    // Special cases
+    if (sortConfig.key === "client") {
+      aValue = (a.client?.name || "").toLowerCase();
+      bValue = (b.client?.name || "").toLowerCase();
+    }
+
+    if (sortConfig.key === "amount") {
+      aValue = a.items.reduce(
+        (sum, item) => sum + item.quantity * item.unitPrice,
+        0
+      );
+      bValue = b.items.reduce(
+        (sum, item) => sum + item.quantity * item.unitPrice,
+        0
+      );
+    }
+
+    if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+    if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+    return 0;
+  });
 
   useEffect(() => {
     const fetchInvoices = async () => {
@@ -17,6 +51,18 @@ export default function InvoiceList() {
     fetchInvoices();
   }, []);
 
+  const toggleSort = (key) => {
+    setSortConfig((prev) => {
+      if (prev.key === key) {
+        return {
+          key,
+          direction: prev.direction === "asc" ? "desc" : "asc",
+        };
+      }
+      return { key, direction: "asc" };
+    });
+  };
+
   return (
     <div className="max-w-5xl mx-auto p-4">
       <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -26,15 +72,54 @@ export default function InvoiceList() {
         <table className="min-w-full bg-white dark:bg-gray-800 border dark:border-gray-700">
           <thead>
             <tr className="bg-gray-200 dark:bg-gray-700 text-left text-gray-700 dark:text-gray-200 text-sm uppercase">
-              <th className="p-3">Invoice #</th>
-              <th className="p-3">Client</th>
-              <th className="p-3">Due Date</th>
-              <th className="p-3">Amount</th>
-              <th className="p-3">Status</th>
+              <th
+                className="p-3 cursor-pointer"
+                onClick={() => toggleSort("invoiceNumber")}
+              >
+                Invoice #{" "}
+                {sortConfig.key === "invoiceNumber" &&
+                  (sortConfig.direction === "asc" ? "▴" : "▾")}
+              </th>
+
+              <th
+                className="p-3 cursor-pointer"
+                onClick={() => toggleSort("client")}
+              >
+                Client{" "}
+                {sortConfig.key === "client" &&
+                  (sortConfig.direction === "asc" ? "▴" : "▾")}
+              </th>
+
+              <th
+                className="p-3 cursor-pointer"
+                onClick={() => toggleSort("dueDate")}
+              >
+                Due Date{" "}
+                {sortConfig.key === "dueDate" &&
+                  (sortConfig.direction === "asc" ? "▴" : "▾")}
+              </th>
+
+              <th
+                className="p-3 cursor-pointer"
+                onClick={() => toggleSort("amount")}
+              >
+                Amount{" "}
+                {sortConfig.key === "amount" &&
+                  (sortConfig.direction === "asc" ? "▴" : "▾")}
+              </th>
+
+              <th
+                className="p-3 cursor-pointer"
+                onClick={() => toggleSort("status")}
+              >
+                Status{" "}
+                {sortConfig.key === "status" &&
+                  (sortConfig.direction === "asc" ? "▴" : "▾")}
+              </th>
             </tr>
           </thead>
           <tbody>
-            {invoices.map((invoice, idx) => {
+            {sortedInvoices.map((invoice, idx) => {
               const total = invoice.items.reduce(
                 (sum, item) => sum + item.quantity * item.unitPrice,
                 0
@@ -48,11 +133,10 @@ export default function InvoiceList() {
                       : "bg-gray-50 dark:bg-gray-900"
                   }`}
                 >
-                  <td className="p-3">
-                    #{invoice._id.slice(-6).toUpperCase()}
-                  </td>
+                  <td className="p-3">{invoice.invoiceNumber}</td>
+
                   <td className="p-3">{invoice.client?.name || "N/A"}</td>
-                  <td className="p-3">{invoice.dueDate}</td>
+                  <td className="p-3">{invoice.dueDate?.slice(0, 10)}</td>
                   <td className="p-3">₱ {total.toFixed(2)}</td>
                   <td className="p-3">
                     <button
