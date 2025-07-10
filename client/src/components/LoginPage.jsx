@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import ThemeToggle from "./ThemeToggle";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -14,9 +15,10 @@ export default function LoginPage() {
     // Hardcoded credentials for mock login
     if (email === "admin@example.com" && password === "password") {
       login({ name: "Admin", email });
+      toast.success("Welcome back!");
       navigate("/invoices");
     } else {
-      alert("Invalid credentials");
+      toast.error("Invalid credentials");
     }
   };
 
@@ -60,7 +62,8 @@ export default function LoginPage() {
           </button>
         </form>
         <p className="text-xs mt-4 text-center text-gray-500 dark:text-gray-400">
-          Use <code>admin@example.com</code> / <code>password</code>
+          Use <code className="select-all">admin@example.com</code> /{" "}
+          <code className="select-all">password</code>
         </p>
       </div>
     </div>
