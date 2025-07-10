@@ -1,14 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function InvoiceForm() {
+  const [clients, setClients] = useState([]);
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/clients");
+        setClients(res.data);
+      } catch (err) {
+        console.error("❌ Failed to load clients", err);
+      }
+    };
+
+    fetchClients();
+  }, []);
+
   const [form, setForm] = useState({
     issueDate: "",
     dueDate: "",
-    clientName: "",
-    clientEmail: "",
-    clientAddress: "",
+    clientId: "", // ✅ instead of clientName, clientEmail, clientAddress
     items: [{ name: "", quantity: 1, unitPrice: 0 }],
   });
 
@@ -35,11 +48,7 @@ export default function InvoiceForm() {
     const payload = {
       issueDate: form.issueDate,
       dueDate: form.dueDate,
-      client: {
-        name: form.clientName,
-        email: form.clientEmail,
-        address: form.clientAddress,
-      },
+      clientId: form.clientId, // ✅ now passing only clientId
       items: form.items,
     };
 
@@ -87,35 +96,21 @@ export default function InvoiceForm() {
 
       <div className="space-y-2">
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
-          Client Name
+          Select Client
         </label>
-        <input
-          type="text"
-          value={form.clientName}
-          onChange={(e) => setForm({ ...form, clientName: e.target.value })}
+        <select
+          value={form.clientId}
+          onChange={(e) => setForm({ ...form, clientId: e.target.value })}
           className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
           required
-        />
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
-          Client Email
-        </label>
-        <input
-          type="email"
-          value={form.clientEmail}
-          onChange={(e) => setForm({ ...form, clientEmail: e.target.value })}
-          className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
-          required
-        />
-
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
-          Client Address
-        </label>
-        <input
-          type="text"
-          value={form.clientAddress}
-          onChange={(e) => setForm({ ...form, clientAddress: e.target.value })}
-          className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
-        />
+        >
+          <option value="">-- Choose Client --</option>
+          {clients.map((client) => (
+            <option key={client._id} value={client._id}>
+              {client.name} ({client.email})
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="space-y-2">

@@ -75,4 +75,14 @@ router.patch("/:id/status", async (req, res) => {
   }
 });
 
+// 🧨 DELETE /api/invoices - Delete all invoices
+router.delete("/", async (req, res) => {
+  try {
+    await Invoice.deleteMany({});
+    res.status(200).json({ message: "All invoices deleted" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+});
+
 export default router;

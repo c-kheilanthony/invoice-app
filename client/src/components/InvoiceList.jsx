@@ -4,6 +4,7 @@ import axios from "axios";
 export default function InvoiceList() {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [invoices, setInvoices] = useState([]);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const sortedInvoices = [...invoices].sort((a, b) => {
     if (!sortConfig.key) return 0;
@@ -38,6 +39,18 @@ export default function InvoiceList() {
     return 0;
   });
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const invoicesPerPage = 10;
+
+  const indexOfLastInvoice = currentPage * invoicesPerPage;
+  const indexOfFirstInvoice = indexOfLastInvoice - invoicesPerPage;
+  const currentInvoices = sortedInvoices.slice(
+    indexOfFirstInvoice,
+    indexOfLastInvoice
+  );
+
+  const totalPages = Math.ceil(sortedInvoices.length / invoicesPerPage);
+
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
@@ -65,9 +78,18 @@ export default function InvoiceList() {
 
   return (
     <div className="max-w-5xl mx-auto p-4">
-      <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
-        Invoice List
-      </h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+          Invoice List
+        </h2>
+        <button
+          onClick={() => setShowConfirmModal(true)}
+          className="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700 text-sm"
+        >
+          Clear All
+        </button>
+      </div>
+
       <div className="overflow-x-auto rounded shadow">
         <table className="min-w-full bg-white dark:bg-gray-800 border dark:border-gray-700">
           <thead>
@@ -119,7 +141,7 @@ export default function InvoiceList() {
             </tr>
           </thead>
           <tbody>
-            {sortedInvoices.map((invoice, idx) => {
+            {currentInvoices.map((invoice, idx) => {
               const total = invoice.items.reduce(
                 (sum, item) => sum + item.quantity * item.unitPrice,
                 0
@@ -201,6 +223,70 @@ export default function InvoiceList() {
             )}
           </tbody>
         </table>
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 mt-4">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-3 py-1 text-sm rounded bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 disabled:opacity-50"
+            >
+              Prev
+            </button>
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentPage(i + 1)}
+                className={`px-3 py-1 text-sm rounded ${
+                  currentPage === i + 1
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="px-3 py-1 text-sm rounded bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500 disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        )}
+
+        {showConfirmModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-md max-w-sm">
+              <p className="text-gray-900 dark:text-white text-sm mb-4">
+                Are you sure you want to delete all invoices? This cannot be
+                undone.
+              </p>
+              <div className="flex justify-end gap-2">
+                <button
+                  onClick={() => setShowConfirmModal(false)}
+                  className="px-3 py-1 text-sm rounded bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={async () => {
+                    try {
+                      await axios.delete("http://localhost:5000/api/invoices");
+                      setInvoices([]);
+                      setShowConfirmModal(false);
+                    } catch (err) {
+                      console.error("Failed to delete invoices", err);
+                    }
+                  }}
+                  className="px-3 py-1 text-sm rounded bg-red-600 text-white hover:bg-red-700"
+                >
+                  Confirm
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
