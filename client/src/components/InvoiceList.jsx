@@ -124,6 +124,9 @@ export default function InvoiceList() {
                 (sum, item) => sum + item.quantity * item.unitPrice,
                 0
               );
+              const isOverdue =
+                invoice.status !== "Paid" &&
+                new Date(invoice.dueDate) < new Date();
               return (
                 <tr
                   key={invoice._id}
@@ -136,7 +139,15 @@ export default function InvoiceList() {
                   <td className="p-3">{invoice.invoiceNumber}</td>
 
                   <td className="p-3">{invoice.client?.name || "N/A"}</td>
-                  <td className="p-3">{invoice.dueDate?.slice(0, 10)}</td>
+                  <td className="p-3">
+                    <span>{invoice.dueDate?.slice(0, 10)}</span>
+                    {isOverdue && (
+                      <span className="ml-2 px-2 py-0.5 rounded-full text-xs font-medium bg-red-200 text-red-800 dark:bg-red-700 dark:text-red-100">
+                        Overdue
+                      </span>
+                    )}
+                  </td>
+
                   <td className="p-3">₱ {total.toFixed(2)}</td>
                   <td className="p-3">
                     <button

@@ -121,66 +121,77 @@ export default function InvoiceForm() {
       <div className="space-y-2">
         <p className="font-semibold text-left">Items</p>
         {form.items.map((item, i) => (
-          <div key={i} className="flex gap-2 items-end">
-            <div className="flex-1">
-              <input
-                type="text"
-                placeholder="Item Name"
-                value={item.name}
-                onChange={(e) => handleItemChange(i, "name", e.target.value)}
-                className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
-                required
-              />
-            </div>
-
-            <div className="w-20">
-              <label className="block text-xs text-gray-600 dark:text-gray-300 mb-1 text-left">
-                Qty
-              </label>
-              <input
-                type="number"
-                min={1}
-                value={item.quantity}
-                onChange={(e) =>
-                  handleItemChange(i, "quantity", +e.target.value)
-                }
-                className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
-                required
-              />
-            </div>
-
-            <div className="w-28">
-              <label className="block text-xs text-gray-600 dark:text-gray-300 mb-1 text-left">
-                Unit Price
-              </label>
-              <div className="relative">
-                <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-300">
-                  ₱
-                </span>
+          <div
+            key={i}
+            className="flex flex-col md:flex-row md:items-end gap-2 border-b border-gray-200 dark:border-gray-700 pb-4"
+          >
+            {/* Line 1: Item name + Remove button (flex row on small screens too) */}
+            <div className="flex justify-between gap-2 w-full">
+              <div className="flex-1">
+                <label className="block text-xs text-gray-600 dark:text-gray-300 mb-1 text-left">
+                  Item Name
+                </label>
                 <input
-                  type="number"
-                  min={0}
-                  value={item.unitPrice}
-                  onChange={(e) =>
-                    handleItemChange(i, "unitPrice", +e.target.value)
-                  }
-                  className="w-full pl-6 border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                  type="text"
+                  placeholder="Item Name"
+                  value={item.name}
+                  onChange={(e) => handleItemChange(i, "name", e.target.value)}
+                  className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
                   required
                 />
               </div>
+              {form.items.length > 1 && (
+                <div className="w-8 self-center mt-6 md:mt-5">
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveItem(i)}
+                    className="text-red-500 dark:text-red-300 text-xl"
+                  >
+                    ✕
+                  </button>
+                </div>
+              )}
             </div>
 
-            {form.items.length > 1 && (
-              <div className="w-8 self-center mt-5">
-                <button
-                  type="button"
-                  onClick={() => handleRemoveItem(i)}
-                  className="text-red-500 dark:text-red-300 text-xl"
-                >
-                  ✕
-                </button>
+            {/* Line 2: Qty and Price stacked under */}
+            <div className="flex gap-2 w-full">
+              <div className="w-20">
+                <label className="block text-xs text-gray-600 dark:text-gray-300 mb-1 text-left">
+                  Qty
+                </label>
+                <input
+                  type="number"
+                  min={1}
+                  value={item.quantity}
+                  onChange={(e) =>
+                    handleItemChange(i, "quantity", +e.target.value)
+                  }
+                  className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                  required
+                />
               </div>
-            )}
+
+              <div className="flex-1 md:w-28">
+                <label className="block text-xs text-gray-600 dark:text-gray-300 mb-1 text-left">
+                  Unit Price
+                </label>
+                <div className="relative">
+                  <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-300">
+                    ₱
+                  </span>
+                  <input
+                    type="number"
+                    min={0}
+                    value={item.unitPrice}
+                    onChange={(e) =>
+                      handleItemChange(i, "unitPrice", +e.target.value)
+                    }
+                    className="w-full pl-6 border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         ))}
 
