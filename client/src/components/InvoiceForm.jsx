@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export default function InvoiceForm() {
   const [form, setForm] = useState({
@@ -44,10 +45,10 @@ export default function InvoiceForm() {
 
     try {
       await axios.post("http://localhost:5000/api/invoices", payload);
-      alert("Invoice created!");
+      toast.success("Invoice successfully created!");
     } catch (err) {
       console.error(err);
-      alert("Error creating invoice");
+      toast.error("Error creating invoice");
     }
   };
 
@@ -58,53 +59,59 @@ export default function InvoiceForm() {
     >
       <h2 className="text-xl font-bold">Create Invoice</h2>
 
-      <div className="flex gap-x-4">
-        <div className="w-1/2 space-y-2">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
-            Issue Date
-          </label>
-          <input
-            type="date"
-            value={form.issueDate}
-            onChange={(e) => setForm({ ...form, issueDate: e.target.value })}
-            className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
-            required
-          />
-        </div>
-
-        <div className="w-1/2 space-y-2">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
-            Due Date
-          </label>
-          <input
-            type="date"
-            value={form.dueDate}
-            onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
-            className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
-            required
-          />
-        </div>
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
+          Issue Date
+        </label>
+        <input
+          type="date"
+          value={form.issueDate}
+          onChange={(e) => setForm({ ...form, issueDate: e.target.value })}
+          className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
+          required
+        />
       </div>
 
       <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
+          Due Date
+        </label>
+        <input
+          type="date"
+          value={form.dueDate}
+          onChange={(e) => setForm({ ...form, dueDate: e.target.value })}
+          className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
+          required
+        />
+      </div>
+
+      <div className="space-y-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
+          Client Name
+        </label>
         <input
           type="text"
-          placeholder="Client Name"
           value={form.clientName}
           onChange={(e) => setForm({ ...form, clientName: e.target.value })}
           className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
           required
         />
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
+          Client Email
+        </label>
         <input
           type="email"
-          placeholder="Client Email"
           value={form.clientEmail}
           onChange={(e) => setForm({ ...form, clientEmail: e.target.value })}
           className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
+          required
         />
+
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-left">
+          Client Address
+        </label>
         <input
           type="text"
-          placeholder="Client Address"
           value={form.clientAddress}
           onChange={(e) => setForm({ ...form, clientAddress: e.target.value })}
           className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
@@ -114,46 +121,69 @@ export default function InvoiceForm() {
       <div className="space-y-2">
         <p className="font-semibold text-left">Items</p>
         {form.items.map((item, i) => (
-          <div key={i} className="flex gap-2">
-            <input
-              type="text"
-              placeholder="Item Name"
-              value={item.name}
-              onChange={(e) => handleItemChange(i, "name", e.target.value)}
-              className="flex-1 border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              required
-            />
-            <input
-              type="number"
-              min={1}
-              placeholder="Qty"
-              value={item.quantity}
-              onChange={(e) => handleItemChange(i, "quantity", +e.target.value)}
-              className="w-20 border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              required
-            />
-            <input
-              type="number"
-              min={0}
-              placeholder="Price"
-              value={item.unitPrice}
-              onChange={(e) =>
-                handleItemChange(i, "unitPrice", +e.target.value)
-              }
-              className="w-28 border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              required
-            />
+          <div key={i} className="flex gap-2 items-end">
+            <div className="flex-1">
+              <input
+                type="text"
+                placeholder="Item Name"
+                value={item.name}
+                onChange={(e) => handleItemChange(i, "name", e.target.value)}
+                className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                required
+              />
+            </div>
+
+            <div className="w-20">
+              <label className="block text-xs text-gray-600 dark:text-gray-300 mb-1 text-left">
+                Qty
+              </label>
+              <input
+                type="number"
+                min={1}
+                value={item.quantity}
+                onChange={(e) =>
+                  handleItemChange(i, "quantity", +e.target.value)
+                }
+                className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                required
+              />
+            </div>
+
+            <div className="w-28">
+              <label className="block text-xs text-gray-600 dark:text-gray-300 mb-1 text-left">
+                Unit Price
+              </label>
+              <div className="relative">
+                <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-300">
+                  ₱
+                </span>
+                <input
+                  type="number"
+                  min={0}
+                  value={item.unitPrice}
+                  onChange={(e) =>
+                    handleItemChange(i, "unitPrice", +e.target.value)
+                  }
+                  className="w-full pl-6 border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                  required
+                />
+              </div>
+            </div>
+
             {form.items.length > 1 && (
-              <button
-                type="button"
-                onClick={() => handleRemoveItem(i)}
-                className="text-red-500 dark:text-red-300"
-              >
-                ✕
-              </button>
+              <div className="w-8 self-center mt-5">
+                <button
+                  type="button"
+                  onClick={() => handleRemoveItem(i)}
+                  className="text-red-500 dark:text-red-300 text-xl"
+                >
+                  ✕
+                </button>
+              </div>
             )}
           </div>
         ))}
+
         <button
           type="button"
           onClick={handleAddItem}

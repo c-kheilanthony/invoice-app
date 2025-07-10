@@ -1,38 +1,18 @@
-import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import InvoiceForm from "./components/InvoiceForm";
+import InvoicePage from "./components/InvoicePage";
+import { Toaster } from "react-hot-toast";
 
 function App() {
-  const [isDark, setIsDark] = useState(false);
-
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDark) {
-      html.classList.add("dark");
-    } else {
-      html.classList.remove("dark");
-    }
-  }, [isDark]);
-
   return (
-    <div
-      className={
-        isDark
-          ? "dark min-h-screen bg-gray-900 transition-colors duration-300"
-          : "min-h-screen bg-gray-100 transition-colors duration-300"
-      }
-    >
-      <div className="flex justify-end mb-4">
-        <button
-          onClick={() => setIsDark(!isDark)}
-          className="px-4 py-2 rounded bg-gray-800 text-white dark:bg-gray-200 dark:text-black"
-        >
-          Toggle {isDark ? "Light" : "Dark"} Mode
-        </button>
-      </div>
-      <InvoiceForm />
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors text-gray-900 dark:text-gray-100">
+      <InvoicePage />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          className:
+            "bg-white dark:bg-gray-800 text-gray-900 dark:text-white border dark:border-gray-600 shadow",
+          duration: 4000,
+        }}
+      />
     </div>
   );
 }

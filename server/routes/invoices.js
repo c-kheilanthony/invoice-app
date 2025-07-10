@@ -63,14 +63,4 @@ router.patch("/:id/status", async (req, res) => {
   }
 });
 
-// GET all invoices
-router.get("/", async (req, res) => {
-  try {
-    const invoices = await Invoice.find().sort({ createdAt: -1 });
-    res.json(invoices);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to fetch invoices" });
-  }
-});
-
 export default router;
