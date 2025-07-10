@@ -154,6 +154,10 @@ export default function InvoiceList() {
                       onClick={async () => {
                         const newStatus =
                           invoice.status === "Paid" ? "Unpaid" : "Paid";
+                        console.log("Toggling status for invoice:", {
+                          id: invoice._id,
+                          newStatus,
+                        });
                         try {
                           await axios.patch(
                             `http://localhost:5000/api/invoices/${invoice._id}/status`,

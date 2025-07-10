@@ -22,10 +22,11 @@ const invoiceSchema = new mongoose.Schema(
       required: true,
     },
     client: {
-      name: String,
-      email: String,
-      address: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Client",
+      required: true,
     },
+
     items: [itemSchema],
     total: {
       type: Number,

@@ -14,7 +14,7 @@ const generateInvoiceNumber = async () => {
 router.post("/", async (req, res) => {
   try {
     const invoiceNumber = await generateInvoiceNumber();
-    const { issueDate, dueDate, client, items, status } = req.body;
+    const { issueDate, dueDate, clientId, items, status } = req.body;
 
     const total = items.reduce((sum, item) => {
       return sum + item.quantity * item.unitPrice;
@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
       invoiceNumber,
       issueDate,
       dueDate,
-      client,
+      client: clientId,
       items,
       total,
       status: status || "Unpaid",
@@ -41,7 +41,10 @@ router.post("/", async (req, res) => {
 // 📄 GET /api/invoices - List all invoices
 router.get("/", async (req, res) => {
   try {
-    const invoices = await Invoice.find().sort({ createdAt: -1 });
+    const invoices = await Invoice.find()
+      .populate("client")
+      .sort({ createdAt: -1 });
+
     res.json(invoices);
   } catch (err) {
     res.status(500).json({ message: "Server error" });
@@ -49,17 +52,26 @@ router.get("/", async (req, res) => {
 });
 
 // ✅ PATCH /api/invoices/:id/status - Update payment status
+// ✅ PATCH /api/invoices/:id/status - Update payment status
 router.patch("/:id/status", async (req, res) => {
   try {
+    console.log("Received PATCH request to update status");
+    console.log("Invoice ID:", req.params.id);
+    console.log("New Status:", req.body.status);
+
     const invoice = await Invoice.findById(req.params.id);
-    if (!invoice) return res.status(404).json({ message: "Invoice not found" });
+    if (!invoice) {
+      console.log("Invoice not found");
+      return res.status(404).json({ message: "Invoice not found" });
+    }
 
     invoice.status = req.body.status || "Unpaid";
     await invoice.save();
 
     res.json(invoice);
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    console.error("❌ Error in PATCH /:id/status:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 

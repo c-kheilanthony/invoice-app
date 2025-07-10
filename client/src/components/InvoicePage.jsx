@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import InvoiceForm from "./InvoiceForm";
 import InvoiceList from "./InvoiceList";
+import ClientList from "./ClientList";
 import { Moon, Sun } from "lucide-react";
 
 export default function InvoicePage() {
@@ -50,12 +51,22 @@ export default function InvoicePage() {
         >
           Invoice List
         </button>
+        <button
+          onClick={() => setActiveTab("clients")}
+          className={`pb-2 ${
+            activeTab === "clients"
+              ? "text-blue-600 border-b-2 border-blue-600 font-semibold"
+              : "text-gray-600 dark:text-gray-300"
+          }`}
+        >
+          Clients
+        </button>
       </div>
 
-      {/* Content */}
       <div>
         {activeTab === "form" && <InvoiceForm />}
         {activeTab === "list" && <InvoiceList />}
+        {activeTab === "clients" && <ClientList />}
       </div>
     </div>
   );

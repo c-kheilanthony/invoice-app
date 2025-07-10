@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import invoiceRoutes from "./routes/invoices.js";
+import clientRoutes from "./routes/clients.js";
 
 dotenv.config();
 
@@ -12,8 +13,12 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.get("/", (req, res) => {
+  res.send("Invoice API is running 🚀");
+});
 
 app.use("/api/invoices", invoiceRoutes);
+app.use("/api/clients", clientRoutes);
 
 mongoose
   .connect(process.env.MONGODB_URI)
