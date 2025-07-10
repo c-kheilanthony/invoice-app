@@ -2,32 +2,29 @@ import { useState, useEffect } from "react";
 import InvoiceForm from "./InvoiceForm";
 import InvoiceList from "./InvoiceList";
 import ClientList from "./ClientList";
-import { Moon, Sun } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function InvoicePage() {
-  const [isDark, setIsDark] = useState(false);
   const [activeTab, setActiveTab] = useState("form");
+  const { logout } = useAuth();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const html = document.documentElement;
-    if (isDark) {
-      html.classList.add("dark");
-    } else {
-      html.classList.remove("dark");
-    }
-  }, [isDark]);
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      {/* Toggle Button */}
-      <div className="flex justify-end mb-6">
-        <button
-          onClick={() => setIsDark(!isDark)}
-          className="px-4 py-2 rounded bg-gray-800 text-white dark:bg-gray-200 dark:text-black"
-        >
-          {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-        </button>
-      </div>
+    <div className="max-w-6xl mx-auto px-4 pt-8">
+      <ThemeToggle className="absolute top-4 right-24" />
+      <button
+        onClick={handleLogout}
+        className="absolute top-4 right-4 text-sm px-3 py-1 rounded bg-red-500 hover:bg-red-600 text-white dark:bg-red-600 dark:hover:bg-red-700"
+      >
+        Logout
+      </button>
 
       {/* Tabs */}
       <div className="flex gap-4 mb-6 border-b border-gray-300 dark:border-gray-600">

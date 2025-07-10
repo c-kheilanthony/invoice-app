@@ -26,7 +26,6 @@ const invoiceSchema = new mongoose.Schema(
       ref: "Client",
       required: true,
     },
-
     items: [itemSchema],
     total: {
       type: Number,
