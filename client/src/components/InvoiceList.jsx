@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { generateInvoicePDF } from "../services/pdfGenerator";
 import axios from "axios";
 
 export default function InvoiceList() {
@@ -138,6 +139,7 @@ export default function InvoiceList() {
                 {sortConfig.key === "status" &&
                   (sortConfig.direction === "asc" ? "▴" : "▾")}
               </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -206,6 +208,14 @@ export default function InvoiceList() {
                       }`}
                     >
                       {invoice.status}
+                    </button>
+                  </td>
+                  <td className="p-3">
+                    <button
+                      onClick={() => generateInvoicePDF(invoice)}
+                      className="text-sm px-2 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                    >
+                      PDF
                     </button>
                   </td>
                 </tr>
