@@ -41,7 +41,7 @@ export default function InvoiceList() {
   });
 
   const [currentPage, setCurrentPage] = useState(1);
-  const invoicesPerPage = 10;
+  const invoicesPerPage = 8;
 
   const indexOfLastInvoice = currentPage * invoicesPerPage;
   const indexOfFirstInvoice = indexOfLastInvoice - invoicesPerPage;

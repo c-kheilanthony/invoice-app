@@ -18,13 +18,16 @@ export default function InvoicePage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 pt-8">
-      <ThemeToggle className="absolute top-4 right-24" />
-      <button
-        onClick={handleLogout}
-        className="absolute top-4 right-4 text-sm px-3 py-1 rounded bg-red-500 hover:bg-red-600 text-white dark:bg-red-600 dark:hover:bg-red-700"
-      >
-        Logout
-      </button>
+      {/* Top controls */}
+      <div className="relative mb-10">
+        <ThemeToggle className="absolute top-0 right-24" />
+        <button
+          onClick={handleLogout}
+          className="absolute top-0 right-4 text-sm px-3 py-1 rounded bg-red-500 hover:bg-red-600 text-white dark:bg-red-600 dark:hover:bg-red-700"
+        >
+          Logout
+        </button>
+      </div>
 
       {/* Tabs */}
       <div className="flex gap-4 mb-6 border-b border-gray-300 dark:border-gray-600">

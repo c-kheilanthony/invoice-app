@@ -25,7 +25,7 @@ export default function LoginPage() {
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 transition-colors">
       <ThemeToggle className="absolute top-4 right-4" />
-      <div className="w-full max-w-md p-8 bg-white dark:bg-gray-800 rounded shadow">
+      <div className="w-full max-w-md mx-4 p-8 bg-white dark:bg-gray-800 rounded shadow">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-900 dark:text-white">
           Login to Invoice App
         </h2>
