@@ -102,17 +102,38 @@ The development focused first on achieving full-stack functionality for all core
   
 ## GitHub Repository
 
-Link: [[Insert GitHub Repo URL here]](https://github.com/c-kheilanthony/invoice-app.git)
+[Invoice App Repo](https://github.com/c-kheilanthony/invoice-app.git)
+
+## Loom link for features overview
+[Features Overview Video](https://www.loom.com/share/e3af8fca8b2f4b828253f37945807395?sid=9314f331-81a3-4dbf-a9b9-2131ca84ca0b)
+
 
 ## Screenshots
 
-<img width="426" height="799" alt="Screenshot 2025-07-11 090958" src="https://github.com/user-attachments/assets/77244290-5fc7-45ad-9914-f3d42015b21c" />
-<img width="414" height="807" alt="Screenshot 2025-07-11 090951" src="https://github.com/user-attachments/assets/4b6b7e84-7501-4b74-b1f2-b77f6dff5579" />
-<img width="407" height="800" alt="Screenshot 2025-07-11 090602" src="https://github.com/user-attachments/assets/c08d8cbc-1f26-429f-abcf-547ab8a891ab" />
-<img width="1920" height="1080" alt="Screenshot (1206)" src="https://github.com/user-attachments/assets/30696ac3-8c23-47a8-8411-9e947052afcd" />
-<img width="1920" height="1080" alt="Screenshot (1205)" src="https://github.com/user-attachments/assets/d106f2d4-08dc-43e9-88aa-023d8212b140" />
-<img width="1920" height="1080" alt="Screenshot (1204)" src="https://github.com/user-attachments/assets/cd74e9bf-d2f3-4a4b-9d12-99699e259297" />
-<img width="1920" height="1080" alt="Screenshot (1203)" src="https://github.com/user-attachments/assets/9119a5d3-5c6c-45ba-801c-f154d849e949" />
-<img width="1920" height="1080" alt="Screenshot (1202)" src="https://github.com/user-attachments/assets/b8a1ac0d-a911-40b4-a819-95d39225e34c" />
-<img width="1920" height="1080" alt="Screenshot (1199)" src="https://github.com/user-attachments/assets/39e682c9-c717-4a52-92ec-f60f1a7fb088" />
-<img width="407" height="801" alt="Screenshot 2025-07-11 091031" src="https://github.com/user-attachments/assets/5f3b6a5f-d5f9-4b23-abb0-b093e2f93ba2" />
+### Mobile View
+
+<details>
+  <summary>Click to expand</summary>
+
+<img width="426" height="799" alt="Mobile 1" src="https://github.com/user-attachments/assets/77244290-5fc7-45ad-9914-f3d42015b21c" />
+<img width="414" height="807" alt="Mobile 2" src="https://github.com/user-attachments/assets/4b6b7e84-7501-4b74-b1f2-b77f6dff5579" />
+<img width="407" height="800" alt="Mobile 3" src="https://github.com/user-attachments/assets/c08d8cbc-1f26-429f-abcf-547ab8a891ab" />
+<img width="407" height="801" alt="Mobile 4" src="https://github.com/user-attachments/assets/5f3b6a5f-d5f9-4b23-abb0-b093e2f93ba2" />
+
+</details>
+
+---
+
+### Desktop View
+
+<details>
+  <summary>Click to expand</summary>
+
+<img width="1920" height="1080" alt="Desktop 1" src="https://github.com/user-attachments/assets/30696ac3-8c23-47a8-8411-9e947052afcd" />
+<img width="1920" height="1080" alt="Desktop 2" src="https://github.com/user-attachments/assets/d106f2d4-08dc-43e9-88aa-023d8212b140" />
+<img width="1920" height="1080" alt="Desktop 3" src="https://github.com/user-attachments/assets/cd74e9bf-d2f3-4a4b-9d12-99699e259297" />
+<img width="1920" height="1080" alt="Desktop 4" src="https://github.com/user-attachments/assets/9119a5d3-5c6c-45ba-801c-f154d849e949" />
+<img width="1920" height="1080" alt="Desktop 5" src="https://github.com/user-attachments/assets/b8a1ac0d-a911-40b4-a819-95d39225e34c" />
+<img width="1920" height="1080" alt="Desktop 6" src="https://github.com/user-attachments/assets/39e682c9-c717-4a52-92ec-f60f1a7fb088" />
+
+</details>
