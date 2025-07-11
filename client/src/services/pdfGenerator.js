@@ -3,6 +3,7 @@ import "jspdf-autotable";
 
 export function generateInvoicePDF(invoice) {
   const doc = new jsPDF();
+  const pageWidth = doc.internal.pageSize.getWidth();
   const margin = 14;
   let y = margin;
 
@@ -75,7 +76,7 @@ export function generateInvoicePDF(invoice) {
   const finalY = doc.lastAutoTable.finalY + 10;
   doc.setFontSize(14);
   doc.setFont("helvetica", "bold");
-  doc.text(`Total: Php ${invoice.total.toFixed(2)}`, 200 - margin, finalY, {
+  doc.text(`Total: Php ${invoice.total.toFixed(2)}`, pageWidth - 10, finalY, {
     align: "right",
   });
 

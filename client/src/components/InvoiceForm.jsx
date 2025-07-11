@@ -120,36 +120,23 @@ export default function InvoiceForm() {
             key={i}
             className="flex flex-col md:flex-row md:items-end gap-2 border-b border-gray-200 dark:border-gray-700 pb-4"
           >
-            {/* Line 1: Item name + Remove button (flex row on small screens too) */}
-            <div className="flex justify-between gap-2 w-full">
-              <div className="flex-1">
-                <label className="block text-xs text-gray-600 dark:text-gray-300 mb-1 text-left">
-                  Item Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Item Name"
-                  value={item.name}
-                  onChange={(e) => handleItemChange(i, "name", e.target.value)}
-                  className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
-                  required
-                />
-              </div>
-              {form.items.length > 1 && (
-                <div className="w-8 self-center mt-6 md:mt-5">
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveItem(i)}
-                    className="text-red-500 dark:text-red-300 text-xl"
-                  >
-                    ✕
-                  </button>
-                </div>
-              )}
+            {/* Line 1: Item Name */}
+            <div className="w-full md:flex-1">
+              <label className="block text-xs text-gray-600 dark:text-gray-300 mb-1 text-left">
+                Item Name
+              </label>
+              <input
+                type="text"
+                placeholder="Item Name"
+                value={item.name}
+                onChange={(e) => handleItemChange(i, "name", e.target.value)}
+                className="w-full border p-2 bg-white dark:bg-gray-700 dark:text-white dark:border-gray-600"
+                required
+              />
             </div>
 
-            {/* Line 2: Qty and Price stacked under */}
-            <div className="flex gap-2 w-full">
+            {/* Line 2: Qty and Price */}
+            <div className="flex gap-2 w-full md:flex-[2]">
               <div className="w-20">
                 <label className="block text-xs text-gray-600 dark:text-gray-300 mb-1 text-left">
                   Qty
@@ -186,6 +173,19 @@ export default function InvoiceForm() {
                   />
                 </div>
               </div>
+
+              {/* Remove Button (on far right on md+) */}
+              {form.items.length > 1 && (
+                <div className="self-center mt-6 md:mt-5">
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveItem(i)}
+                    className="text-red-500 dark:text-red-300 text-xl"
+                  >
+                    ✕
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ))}
